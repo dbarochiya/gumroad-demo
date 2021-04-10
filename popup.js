@@ -87,6 +87,7 @@ function addProductPopup(url) {
     let iframe_wrapper = document.createElement("div")
     iframe_wrapper.classList.add("iframe-wrapper");
     iframe_wrapper.id =  url;
+    iframe_wrapper.style.display = 'none'
     // append iframe to DOM
     iframe_wrapper.appendChild(iframe);
     document.getElementById('iframe-content').appendChild(iframe_wrapper);
@@ -104,12 +105,13 @@ docReady(function() {
     var active_element;
 
     //regEx to match only gumroad products 
-    const regx = new RegExp('(http|https)://(.*\.)?(gumroad).com/l/(.*)');
+    const regx1 = new RegExp('(http|https)://(gumroad).com/l/(.*)');
+    const regx2 = new RegExp('(http|https)://(.*\.)?(gumroad).com/(.*)');
 
     //search all anchors and add onClick/hover listener when regEx matched
     const allAnchors = document.getElementsByTagName('a')
     for(var i=0; i < allAnchors.length; i++){
-        if(regx.test(allAnchors[i].href)){
+        if(regx1.test(allAnchors[i].href) || regx2.test(allAnchors[i].href)){
             allAnchors[i].addEventListener('mouseenter', function (e) {
                 e.preventDefault();                
                 //if the iframe for given url already exists then skip else
@@ -135,10 +137,6 @@ docReady(function() {
     //close iframe window
     document.getElementById('iframe-close').addEventListener('click', function () {
         document.getElementById('iframe-container').style.display = 'none';
+        active_element.style.display = 'none';
     })
 });
-
-
-
-
-
